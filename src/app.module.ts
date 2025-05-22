@@ -3,6 +3,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { join } from 'path';
 import { ApolloDriver } from '@nestjs/apollo';
 import { AppResolver } from './app.resolver';
+import { KafkaService } from './kafka/kafka.service';
 
 @Module({
   imports: [
@@ -12,6 +13,6 @@ import { AppResolver } from './app.resolver';
       playground: true
     }),
   ],
-  providers: [AppResolver],
+  providers: [AppResolver, KafkaService],
 })
 export class AppModule {}
