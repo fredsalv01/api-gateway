@@ -1,5 +1,6 @@
-import { Field, Mutation, ObjectType, Query, Resolver } from "@nestjs/graphql";
+import { Args, Field, Mutation, ObjectType, Query, Resolver } from "@nestjs/graphql";
 import { KafkaService } from "./kafka/kafka.service";
+import { CreateTransactionInput } from "./transaction/dto/create-transaction.input";
 
 @ObjectType()
 class HelloResponse {
@@ -20,10 +21,18 @@ export class AppResolver {
     }
 
     @Mutation(() => Boolean)
-    async createTransaction() {
-        await this.kafkaService.emitTransaction({
-            amount: 123,
-        })
+    async createTransaction(
+        @Args('input') input: CreateTransactionInput
+    ): Promise<boolean> {
+        await this.kafkaService.emitTransaction(
+            'transaction.create', 
+            {
+                accountExternalIdDebit: input.accountExternalIdDebit,
+                accountExternalIdCredit: input.accountExternalIdCredit,
+                tranferTypeId: input.tranferTypeId,
+                value: input.value,
+            }
+        );
         return true;
     }
 }

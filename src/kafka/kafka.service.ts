@@ -16,9 +16,9 @@ export class KafkaService implements OnModuleInit {
         console.log('Kafka producer connected');
     }
 
-    async emitTransaction(payload: any) {
+    async emitTransaction(topic: string, payload: any) {
         await this.producer.send({
-            topic: 'transaction-topic',
+            topic,
             messages: [
                 {
                     value: JSON.stringify(payload)
