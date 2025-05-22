@@ -25,7 +25,7 @@ export class AppResolver {
         @Args('input') input: CreateTransactionInput
     ): Promise<boolean> {
         await this.kafkaService.emitTransaction(
-            'transaction.create', 
+            'createTransaction', 
             {
                 accountExternalIdDebit: input.accountExternalIdDebit,
                 accountExternalIdCredit: input.accountExternalIdCredit,
